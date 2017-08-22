@@ -1,4 +1,6 @@
-from address_terminal.address_terminal.entry import Entry
+import sys
+sys.path.append("..")
+from address_terminal.models.entry import Entry
 
 class AddressBook(object):
     def __init__(self, entries = []):
