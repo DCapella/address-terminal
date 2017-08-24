@@ -1,6 +1,6 @@
 import sys
 sys.path.append("..")
-from address_terminal.models.address_book import AddressBook
+from address_terminal.address_terminal.address_book import AddressBook
 print("="*25,"\nSTART OF TESTS", "\n" + "="*25)
 
 # start of tests
