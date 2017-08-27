@@ -47,7 +47,6 @@ else:
     errors += 1
 
 print("\nChecks the 1st entry")
-# book_csv.import_from_csv("entries.csv")
 entry_one = book_csv.entries[0]
 if check_entry(entry_one, 'aFirst', '123.456.7890', 'first@first.com'):
     print("SUCCESS")
@@ -56,7 +55,6 @@ else:
     errors += 1
 
 print("\nChecks the 2nd entry")
-# book_csv.import_from_csv("entries.csv")
 entry_two = book_csv.entries[1]
 if check_entry(entry_two, 'bSecond', '234.567.8901', 'second@second.com'):
     print("SUCCESS")
@@ -65,7 +63,6 @@ else:
     errors += 1
 
 print("\nChecks the 3rd entry")
-# book_csv.import_from_csv("entries.csv")
 entry_three = book_csv.entries[2]
 if check_entry(entry_three, 'cThird', '345.678.9012', 'third@third.com'):
     print("SUCCESS")
@@ -74,7 +71,6 @@ else:
     errors += 1
 
 print("\nChecks the 4th entry")
-# book_csv.import_from_csv("entries.csv")
 entry_four = book_csv.entries[3]
 if check_entry(entry_four, 'dFourth', '456.789.0123', 'fourth@fourth.com'):
     print("SUCCESS")
@@ -83,13 +79,76 @@ else:
     errors += 1
 
 print("\nChecks the 5th entry")
-# book_csv.import_from_csv("entries.csv")
 entry_five = book_csv.entries[4]
 if check_entry(entry_five, 'eFifth', '567.890.1234', 'fifth@fifth.com'):
     print("SUCCESS")
 else:
     print("FAIL")
     errors += 1
+
+# Test the binary_search method
+print("\nSearches AddressBook for a non-existent entry")
+book.import_from_csv('entries.csv')
+entry = book.binary_search("Dan")
+if isinstance(entry, object):
+    print("SUCCESS")
+else:
+    print("FAIL")
+    errors += 1
+
+print("\nSearches AddressBook for 'aFirst'")
+entry = book.binary_search("aFirst")
+try:
+    isinstance(entry, object) and check_entry(entry, 'aFirst', '123.456.7890', 'first@first.com')
+    print("SUCCESS")
+except Exception as e:
+    print("FAIL")
+    errors += 1
+
+print("\nSearches AddressBook for 'bSecond'")
+entry = book.binary_search("bSecond")
+try:
+    isinstance(entry, object) and check_entry(entry, 'bSecond', '234.567.8901', 'second@second.com')
+    print("SUCCESS")
+except Exception as e:
+    print("FAIL")
+    errors += 1
+
+print("\nSearches AddressBook for 'cThird'")
+entry = book.binary_search("cThird")
+try:
+    isinstance(entry, object) and check_entry(entry, 'cThird', '345.678.9012', 'third@third.com')
+    print("SUCCESS")
+except Exception as e:
+    print("FAIL")
+    errors += 1
+
+print("\nSearches AddressBook for 'dFourth'")
+entry = book.binary_search("dFourth")
+try:
+    isinstance(entry, object) and check_entry(entry, 'dFourth', '456.789.0123', 'fourth@fourth.com')
+    print("SUCCESS")
+except Exception as e:
+    print("FAIL")
+    errors += 1
+
+print("\nSearches AddressBook for 'eFifth'")
+entry = book.binary_search("eFifth")
+try:
+    isinstance(entry, object) and check_entry(entry, 'eFifth', '567.890.1234', 'fifth@fifth.com')
+    print("SUCCESS")
+except Exception as e:
+    print("FAIL")
+    errors += 1
+
+print("\nsearches AddressBook for First")
+entry = book.binary_search('First')
+try:
+    isinstance(entry, object) and entry.name == 'First'
+    print("FAIL")
+    errors += 1
+except Exception as e:
+    print("SUCCESS")
 
 # end of tests
 print("\nYou have " + str(errors) + " error(s).")

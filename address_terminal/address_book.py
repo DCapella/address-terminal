@@ -31,3 +31,20 @@ class AddressBook(object):
             next(reader, None)
             for row in reader:
                 self.add_entry(row[0], row[1], row[2])
+
+    def binary_search(self, name):
+        lower = 0
+        upper = len(self.entries) - 1
+
+        while lower <= upper:
+            mid = int((lower + upper) / 2)
+            mid_name = self.entries[mid].name
+
+            if name == mid_name:
+                return self.entries[mid]
+            elif name < mid_name:
+                upper = mid - 1
+            elif name > mid_name:
+                lower = mid + 1
+
+        return ''
