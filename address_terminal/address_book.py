@@ -32,6 +32,16 @@ class AddressBook(object):
             for row in reader:
                 self.add_entry(row[0], row[1], row[2])
 
+    def count_csv(self, file_name):
+        """
+        Goes through each line of a csv file and counts
+        """
+        with open(file_name) as csv_file:
+            reader = csv.reader(csv_file, delimiter=',')
+            next(reader, None)
+            data = list(reader)
+            return len(data)
+
     def binary_search(self, name):
         lower = 0
         upper = len(self.entries) - 1

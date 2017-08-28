@@ -1,4 +1,4 @@
-from menu_controller import MenuController
+from controller_menu import MenuController
 
 menu = MenuController()
 

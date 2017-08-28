@@ -34,7 +34,7 @@ class MenuController(object):
             """
             for entry in self.address_book.entries:
                 system_clear()
-                print(entry)
+                print("%s\n%s\n%s" % (entry.name, entry.phone_number, entry.email))
                 entry_submenu(entry)
 
             system_clear()
@@ -58,8 +58,8 @@ class MenuController(object):
                 """
                 case_selection = {
                     'n': 'pass',
-                    'd': 'pass',
-                    'e': 'pass',
+                    'd': delete_entry,
+                    'e': edit_entry,
                     'm': 'pass'
                 }
 
@@ -69,7 +69,7 @@ class MenuController(object):
                     entry_submenu(entry)
 
                 answer = case_selection.get(character, lambda: "nothing")
-                return answer()
+                return answer(entry)
 
             get_selection(selection, entry)
 
@@ -90,6 +90,108 @@ class MenuController(object):
 
             system_clear()
             print("New entry created")
+
+        def read_csv():
+            """Function to import entries from csv"""
+            print("Enter CSV file to import: ")
+            file_name = get()
+
+            if not file_name:
+                system_clear()
+                print("No CSV file read")
+                self.main_menu()
+
+            try:
+                self.address_book.import_from_csv(file_name)
+                entry_count = self.address_book.count_csv(file_name)
+                system_clear()
+                print('%s new entries added from %s' % (entry_count, file_name))
+            except Exception as e:
+                system_clear()
+                print(file_name + ' is not a valid CSV file, please enter the name of a valid CSV file')
+                read_csv()
+
+        def delete_entry(entry):
+            """Function to delete a selected entry"""
+            self.address_book.entries.delete(entry)
+            print('%s has been deleted' % entry.name)
+
+        def edit_entry(entry):
+            """Function allowing user to update current entry"""
+            system_clear()
+            print("%s\n%s\n%s" % (entry.name, entry.phone_number, entry.email))
+            print("Updated name: ")
+            name = get()
+            print("Updated phone number: ")
+            phone_number = get()
+            print("Updated email: ")
+            email = get()
+
+            if name: entry.name = name
+            if phone_number: entry.phone_number = phone_number
+            if email: entry.email = email
+
+            system_clear()
+            print("Updated entry: ")
+            print("%s\n%s\n%s" % (entry.name, entry.phone_number, entry.email))
+            entry_submenu(entry)
+
+        def search_entries():
+            """Function allowing user to search by name for an entry"""
+            print("Search by name: ")
+            name = get()
+            match = self.address_book.binary_search(name)
+            system_clear()
+            if match != '':
+                print("%s\n%s\n%s" % (match.name, match.phone_number, match.email))
+            else:
+                print("No match found for %s" % name)
+
+        def search_submenu(entry):
+            """
+            A submenu function that allows user to delete, edit or return to
+            main menu
+            """
+            print("d - delete entry")
+            print("e - edit this entry")
+            print("m - return main menu")
+
+            def select_delete_entry():
+                system_clear()
+                delete_entry(entry)
+                self.main_menu()
+
+            def select_edit_entry():
+                edit_entry(entry)
+                system_clear()
+                self.main_menu()
+
+            def select_main_menu():
+                system_clear()
+                self.main_menu()
+
+            selection = get()
+
+            def get_selection(character, entry):
+                """
+                Reads your input and completes the necessary function
+                """
+                case_selection = {
+                    'd': select_delete_entry,
+                    'e': select_edit_entry,
+                    'm': select_main_menu
+                }
+
+                if character not in case_selection:
+                    system_clear()
+                    print("Sorry,", character, "is not a valid input")
+                    print("%s\n%s\n%s" % (entry.name, entry.phone_number, entry.email))
+                    search_submenu(entry)
+
+                answer = case_selection.get(character, lambda: "nothing")
+                return answer()
+
+            get_selection(selection, entry)
 
         print("Main Menu -", len(self.address_book.entries), "entries")
         print("1 - View all entries")
