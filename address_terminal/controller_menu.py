@@ -28,14 +28,15 @@ class MenuController(object):
         Main menu function that gives you the ability to go through, create,
         search, or import an entry in the Address Book
         """
-        def view_all_entries():
+        def view_all_entries(entry_name):
             """
             Allows you to view all the entries in the Address Book Object
             """
             for entry in self.address_book.entries:
-                system_clear()
-                print("%s\n%s\n%s" % (entry.name, entry.phone_number, entry.email))
-                entry_submenu(entry)
+                # system_clear()
+                if entry.name >= entry_name:
+                    print("%s\n%s\n%s" % (entry.name, entry.phone_number, entry.email))
+                    entry_submenu(entry)
 
             system_clear()
             print("End of entries")
@@ -50,6 +51,13 @@ class MenuController(object):
             print("e - edit this entry")
             print("m - return to main menu")
 
+            def select_next(entry):
+                system_clear()
+
+            def select_main_menu(entry):
+                system_clear()
+                self.main_menu()
+
             selection = get()
 
             def get_selection(character, entry):
@@ -57,14 +65,13 @@ class MenuController(object):
                 Reads your input and completes the necessary function
                 """
                 case_selection = {
-                    'n': 'pass',
+                    'n': select_next,
                     'd': delete_entry,
                     'e': edit_entry,
-                    'm': 'pass'
+                    'm': select_main_menu
                 }
 
                 if character not in case_selection:
-                    system_clear()
                     print("Sorry,", character, "is not a valid input")
                     entry_submenu(entry)
 
@@ -113,8 +120,10 @@ class MenuController(object):
 
         def delete_entry(entry):
             """Function to delete a selected entry"""
-            self.address_book.entries.delete(entry)
+            system_clear()
+            self.address_book.entries.remove(entry)
             print('%s has been deleted' % entry.name)
+            view_all_entries(entry.name)
 
         def edit_entry(entry):
             """Function allowing user to update current entry"""
@@ -206,7 +215,8 @@ class MenuController(object):
         def selection_1():
             """Selection 1 function that calls view_all_entries function"""
             system_clear()
-            view_all_entries()
+            if len(self.address_book.entries) > 0:
+                view_all_entries(self.address_book.entries[0].name)
             self.main_menu()
 
         def selection_2():
