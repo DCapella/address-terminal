@@ -3,7 +3,7 @@ A fun project creating a virtual address book coded with Python 3 and using term
 
 It is an application that can be used to store names with a phone number and email. You will be able to view, create, search and even import entries from a CSV.
 
-Address Terminal was originally wrote in Ruby and I decided I wanted to see if I could change it over to Python. It was a lot of fun seeing how the different languages reacted.
+Address Terminal was originally written in Ruby and I decided I wanted to see if I could change it over to Python. It was a lot of fun seeing how the different languages reacted.
 
 Users need to be able to affect the entries by:
 
